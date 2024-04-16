@@ -1,78 +1,41 @@
-//your code here
-
-const form = document.querySelector(“form”);
-
-const usernameInput = document.querySelector(“#username”);
-
-const passwordInput = document.querySelector(“#password”);
-
-const rememberMeCheckbox = document.querySelector(“#checkbox”);
-
-const exisitingButton = document.querySelector(“#existing”);
-
-form.addEventListener(“submit”, (event) => {
-
-event.preventDefault();
-
-const username = usernameInput.value;
-
-const password = passwordInput.value;
-
-const rememberMe = rememberMeCheckbox.checked;
-
-if (rememberMe) {
-
-localStorage.setItem("username", username);
-
-localStorage.setItem("password", password);
-} else {
-
-localStorage.removeItem("username");
-
-localStorage.removeItem("password");
-}
-
-alert(Logged in as ${username});
-
-showButton();
-
-form.reset(); // Clear the form fields
-
+//your JS code here. If required.
+let checkbox = document.getElementById("checkbox");
+let form = document.getElementById("form");
+checkbox.addEventListener('click',()=>{
+		if(!checkbox.checked){
+		// alert(checkbox.checked);
+		localStorage.removeItem("password");
+		localStorage.removeItem("username");
+		document.getElementById("existing").style.display = "none";
+	}	
 });
 
-function loginAsSaved() {
 
-const username = localStorage.getItem(“username”);
 
-const password = localStorage.getItem(“password”);
-
-if (username && password) {
-
-alert(`Logged in as ${username}`);
-
-form.reset();
+document.getElementById("submit").addEventListener('click',myFunc);
+document.getElementById("existing").addEventListener('click',exisFunc);
+if(localStorage.getItem("username") && localStorage.getItem("password")){
+	// document.getElementById("form").style.display = "none";
+	document.getElementById("existing").style.display = "block";
 }
 
+function exisFunc(){
+	let name = JSON.parse(localStorage.getItem("username"));
+	alert(`Logged in as ${name}`);
 }
 
-function showButton() {
-
-const username = localStorage.getItem(“username”);
-
-const password = localStorage.getItem(“password”);
-
-if (username && password) {
-
-exisitingButton.style.display = "block";
-} else {
-
-exisitingButton.style.display = "none";
+function myFunc(e){
+	e.preventDefault();
+	let username = document.getElementById("username").value;
+	let pass = document.getElementById("password").value;
+	if(checkbox.checked){
+		localStorage.setItem("username",JSON.stringify(username));
+		localStorage.setItem("password",JSON.stringify(pass));
+		document.getElementById("existing").style.display = "block";
+		
+	}else{
+		alert(`Logged in as ${username}`);
+		document.getElementById("existing").style.display = "none";
+	}
+	
 }
-
-}
-
-exisitingButton.style.display = “none”;
-
-exisitingButton.addEventListener(“click”, loginAsSaved);
-
-showButton();
